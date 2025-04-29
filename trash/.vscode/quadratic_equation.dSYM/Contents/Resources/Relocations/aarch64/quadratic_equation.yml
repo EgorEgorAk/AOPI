@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/esorrowk/Desktop/algos/quadratic_equation'
+relocations:     []
+...
