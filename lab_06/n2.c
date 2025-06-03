@@ -4,8 +4,6 @@
 #define N 1000
 #define start 500
 
-// int count = 1;
-
 typedef struct str {
     char tape[N];
     int head;
@@ -27,40 +25,36 @@ void initTM(Tmashine *TM) {
         TM->tape[index++] = sym;
     }
 
-    TM->head = index-1;
+    TM->head = index - 1;  // ставим головку на последний введённый символ
 }
 
 void print(Tmashine *TM) {
-    // printf("%2d) ", count);
-    // count++;
-    for (int i = 10; i > 0; i-- ) {
-        printf("%c", TM->tape[start-i]);
+    for (int i = 10; i > 0; i--) {
+        printf("%c", TM->tape[start - i]);
     }
-    for (int i = 0; i < 10; i++ ) {
-        printf("%c", TM->tape[start+i]);
+    for (int i = 0; i < 10; i++) {
+        printf("%c", TM->tape[start + i]);
     }
 
     printf(" - state: %d  (%c)\n", TM->status, TM->tape[TM->head]);
-    // printf("\n");
 }
-
 
 int main() {
     Tmashine TM;
-    char *str = "123456789", current;
+    const char *digits = "123456789";
+    char current;
     initTM(&TM);
-    
 
     while (TM.status != -1) {
         print(&TM);
         current = TM.tape[TM.head];
-        
+
         switch (TM.status) {
-            case 1:  // обработка числа справа b
+            case 1:  // обработка числа справа (b)
                 if (current == '-') {
                     TM.status = 5;
                     TM.head++;
-                } else if (strchr(str, current)) {
+                } else if (strchr(digits, current)) {
                     TM.tape[TM.head]--;
                     TM.status = 2;
                     TM.head--;
@@ -71,20 +65,20 @@ int main() {
                     TM.status = -1;
                 }
                 break;
-            
-            case 2: // переход к левому числу a
+
+            case 2: // переход к левому числу (a)
                 if (current == ' ') {
                     TM.status = 5;
                     TM.head++;
                 } else if (current == '-') {
                     TM.status = 3;
                     TM.head--;
-                } else if (strchr(str, current)) {
+                } else if (strchr(digits, current)) {
                     TM.head--;
                 }
                 break;
-            
-            case 3: // обработка левого числа a
+
+            case 3: // обработка левого числа (a)
                 if (current == ' ') {
                     TM.status = 5;
                     TM.head++;
@@ -102,9 +96,9 @@ int main() {
                     TM.head--;
                 }
                 break;
-            
-            case 4: // возврат к правому числу b
-                if (strchr(str, current) || current == '0') {
+
+            case 4: // возврат к правому числу (b)
+                if (strchr(digits, current) || current == '0') {
                     TM.head--;
                 } else if (current == ' ') {
                     TM.status = 6;
@@ -114,8 +108,8 @@ int main() {
                     TM.head++;
                 }
                 break;
-            
-            case 5: // заверешние
+
+            case 5: // завершение
                 if (current == ' ') {
                     TM.status = -1;
                 } else if (current == '-') {
@@ -125,7 +119,7 @@ int main() {
                     TM.head--;
                 }
                 break;
-            
+
             case 6:
                 if (current == ' ') {
                     TM.head++;
@@ -143,5 +137,4 @@ int main() {
     printf("Result:\n");
     print(&TM);
     return 0;
-
 }

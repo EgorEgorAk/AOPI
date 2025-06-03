@@ -24,7 +24,6 @@ void initTM(Tmashine *TM) {
         }
         TM->tape[index++] = sym;
     }
-
 }
 
 void print(Tmashine *TM) {
@@ -34,11 +33,8 @@ void print(Tmashine *TM) {
     for (int i = 0; i < 10; i++ ) {
         printf("%c", TM->tape[start+i]);
     }
-
     printf(" - state: %d  (%c)\n", TM->status, TM->tape[TM->head]);
-    // printf("\n");
 }
-
 
 int main() {
     Tmashine TM;
@@ -53,7 +49,7 @@ int main() {
             case 1: 
                 if (current == 'D') {
                     TM.status = 0;
-                } else if (current = '1') {
+                } else if (current == '1') {   
                     TM.head++;
                     TM.status = 2;
                 }
@@ -103,10 +99,23 @@ int main() {
                 break;
             case 0:
                 break;
-
         }
     }
+
     printf("Result:\n");
     print(&TM);
+
+    
+    int count_ones = 0;
+    for (int i = start; i < start + N; i++) {
+        if (TM.tape[i] == '1') count_ones++;
+    }
+
+    if (count_ones % 2 == 0) {
+        printf("ЧЕТНОЕ\n");
+    } else {
+        printf("НЕЧЕТНОЕ\n");
+    }
+
     return 0;
 }
